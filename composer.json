@@ -1,10 +1,10 @@
 {
-    "name": "entomb/slim-json-api",
+    "name": "slim/json-api",
     "type": "library",
-    "version": "1.1.0",
-    "description": "Slim extension to implement fast JSON API's",
+    "version": "2.0.0",
+    "description": "Slim extension to implement fast JSON API's, support JSON API v1.0",
     "keywords": ["slim","json","API","view", "middleware"],
-    "homepage": "https://github.com/entomb/slim-json-api",
+    "homepage": "https://github.com/jk2K/slim-json-api",
     "license": "GPL 3.0",
     "authors": [
         {
@@ -14,10 +14,16 @@
             "role": "Developer"
         }
     ],
+    "support": {
+        "issues": "https://github.com/jk2K/slim-json-api/issues",
+        "docs": "https://github.com/jk2K/slim-json-api/blob/master/README.md"
+    },
     "require": {
         "php": ">=5.3.0"
     },
     "autoload": {
-        "classmap": ["jsonAPI/"]
+        "psr-4": {
+            "Slim\\JSON-API\\": "src"
+        }
     }
 }
