@@ -109,9 +109,9 @@ class JsonApiMiddleware extends Middleware {
                 return 'CORE_ERROR';
             case E_CORE_WARNING: // 32 //
                 return 'CORE_WARNING';
-            case E_CORE_ERROR: // 64 //
+            case E_COMPILE_ERROR: // 64 //
                 return 'COMPILE_ERROR';
-            case E_CORE_WARNING: // 128 //
+            case E_COMPILE_WARNING: // 128 //
                 return 'COMPILE_WARNING';
             case E_USER_ERROR: // 256 //
                 return 'USER_ERROR';

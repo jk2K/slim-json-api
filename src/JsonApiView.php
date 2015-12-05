@@ -66,34 +66,23 @@ class JsonApiView extends View
         parent::__construct();
     }
 
-    public function render($status = 200, $data = NULL)
+    public function render($status = 200, $data = null)
     {
         $app = Slim::getInstance();
 
-        $status = intval($status);
-
-        //append error bool
-        if ($status < 400) {
-            $this->response['data'] = $this->all();
+        //remove flash messages
+        unset($this->data['flash']);
+        if ($status < 300) {
+            if (isset($this->data['data'])) {
+                // for pagination
+                $this->response = $this->all();
+            } else {
+                // for normal
+                $this->response['data'] = $this->all();
+            }
         } else {
-            $this->response['errors'][] = $data;
-        }
-
-        //add flash messages
-        if (isset($this->data->flash) && is_object($this->data->flash)) {
-//            $flash = $this->data->flash->getMessages();
-//            if ($this->dataWraper) {
-//                unset($response[$this->dataWraper]['flash']);
-//            } else {
-//                unset($response['flash']);
-//            }
-//            if (count($flash)) {
-//                if ($this->metaWrapper) {
-//                    $response[$this->metaWrapper]['flash'] = $flash;
-//                } else {
-//                    $response['flash'] = $flash;
-//                }
-//            }
+            // for error
+            $this->response['errors'] = $this->all();
         }
 
         $app->response()->status($status);
@@ -109,5 +98,4 @@ class JsonApiView extends View
 
         $app->stop();
     }
-
 }
