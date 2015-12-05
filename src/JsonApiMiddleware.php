@@ -10,7 +10,7 @@
  *
  *
 */
-namespace Slim\JsonApiMiddleware;
+namespace Slim\JsonApi;
 
 use Exception;
 use Slim\Slim;

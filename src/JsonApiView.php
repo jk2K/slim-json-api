@@ -10,7 +10,7 @@
  *
  *
  */
-namespace Slim\JsonApiView;
+namespace Slim\JsonApi;
 
 use Slim\View;
 use Slim\Slim;
