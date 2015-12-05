@@ -1,8 +1,4 @@
 #slim-jsonAPI
-[![Latest Stable Version](https://poser.pugx.org/entomb/slim-json-api/v/stable.png)](https://packagist.org/packages/entomb/slim-json-api)
-[![Total Downloads](https://poser.pugx.org/entomb/slim-json-api/downloads.png)](https://packagist.org/packages/entomb/slim-json-api)
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/entomb/slim-json-api/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
 This is an extension to the [SLIM framework](https://github.com/codeguy/Slim) to implement json API's with great ease.
 
 ##Installation
@@ -12,7 +8,7 @@ Using composer you can add use this as your composer.json
     {
         "require": {
             "slim/slim": "2.3.*",
-            "entomb/slim-json-api": "dev-master"
+            "slim/json-api": "dev-master"
         }
     }
 
@@ -58,9 +54,9 @@ the usage will be `$app->render( (int)$HTTP_CODE, (array)$DATA);`
 ####example output
 ```json
 {
-    "msg":"welcome to my API!",
-    "error":false,
-    "status":200
+    "data": {
+        "msg": "welcome to my API!"
+    }
 }
 
 ```
@@ -76,7 +72,6 @@ All requests will have an `error` param that defaults to false.
         //your code here
 
         $app->render(404,array(
-                'error' => TRUE,
                 'msg'   => 'user not found',
             ));
     });
@@ -84,87 +79,10 @@ All requests will have an `error` param that defaults to false.
 ```
 ```json
 {
-    "msg":"user not found",
-    "error":true,
-    "status":404
+	"errors": {
+		"msg": "user not found",
+	}
 }
-
-```
-
-You can optionally throw exceptions, the middleware will catch all exceptions and display error messages.
-
-```php
-
-    $app->get('/user/:id', function($id) use ($app) {
-
-        //your code here
-
-        if(...){
-            throw new Exception("Something wrong with your request!");
-        }
-    });
-
-```
-```json
-{
-    "error": true,
-    "msg": "ERROR: Something wrong with your request!",
-    "status": 500
-}
-
-```
-
-##Embedding response data and metadata in separate containers
-It is possible to separate response metadata and business information in separate containers.
-
-####To make it possible just init JsonApiView with containers names
-```php
-   require 'vendor/autoload.php';
-
-    $app = new \Slim\Slim();
-
-    $app->view(new \JsonApiView("data", "meta"));
-    $app->add(new \JsonApiMiddleware());
-```
-
-####Response
-```json
-{
-    "data":{
-        "msg":"welcome to my API!"
-    },
-    "meta":{
-        "error":false,
-        "status":200
-    }
-}
-```
-
-
-##routing specific requests to the API
-If your site is using regular HTML responses and you just want to expose an API point on a specific route,
-you can use Slim router middlewares to define this.
-
-```php
-    function APIrequest(){
-        $app = \Slim\Slim::getInstance();
-        $app->view(new \JsonApiView());
-        $app->add(new \JsonApiMiddleware());
-    }
-
-
-    $app->get('/home',function() use($app){
-        //regular html response
-        $app->render("template.tpl");
-    });
-
-    $app->get('/api','APIrequest',function() use($app){
-        //this request will have full json responses
-
-        $app->render(200,array(
-                'msg' => 'welcome to my API!',
-            ));
-    });
 ```
 
 
